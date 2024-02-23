@@ -31,20 +31,20 @@ def appSearch(filter):
         tweetSet.add(tweet.id)
 
 utc=pytz.UTC
-username = ""
+username = "@"
 password = ""
 
 app = Twitter("session")
 app.sign_in(username, password)
 print(app.user)
 
-dbfile = open('dbfile.pkl', 'rb')    
-db = pickle.load(dbfile)
+dbfile = open('dbfile.pkl', 'rb')
 
-tweetset = set()
 
-if(db):
-   tweetSet = db
+try:
+  tweetSet = pickle.load(dbfile)
+except EOFError:
+   tweetSet = set()
 
 
 
