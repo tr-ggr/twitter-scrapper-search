@@ -6,25 +6,8 @@ import keyboard
 import time
 import pickle
 
-utc=pytz.UTC
-username = "@BobetSchol7943"
-password = "IamStupid12"
-
-app = Twitter("session")
-app.sign_in(username, password)
-print(app.user)
-
-dbfile = open('dbfile.pkl', 'rb')    
-db = pickle.load(dbfile)
-
-tweetSet = db
-
-dbfile.close()
-
-while(not keyboard.is_pressed('q')):
-  print("Starting scrape!")
-  time.sleep(5)
-  tweets = app.search('lf commissioner')
+def appSearch(filter):
+  tweets = app.search(filter)
   for tweet in tweets:
       if tweet.id in tweetSet:
         continue
@@ -47,13 +30,40 @@ while(not keyboard.is_pressed('q')):
 
         tweetSet.add(tweet.id)
 
+utc=pytz.UTC
+username = ""
+password = ""
+
+app = Twitter("session")
+app.sign_in(username, password)
+print(app.user)
+
+dbfile = open('dbfile.pkl', 'rb')    
+db = pickle.load(dbfile)
+
+tweetset = set()
+
+if(db):
+   tweetSet = db
+
+
+
+dbfile.close()
+
+while(not keyboard.is_pressed('q')):
+  print("Starting scrape!")
+  time.sleep(1800)
+  appSearch("lf commissioner")
+  appSearch("lf programmer")
+  appSearch("lf java")
+  appSearch("lf program")
+  
+
+
+
 
 dbfile = open('dbfile.pkl' , 'ab')
 pickle.dump(tweetSet, dbfile);
 dbfile.close()
 
-
-      
-
-    
 
